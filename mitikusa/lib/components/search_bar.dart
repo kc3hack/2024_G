@@ -19,15 +19,20 @@ class MySearchBarState extends State<MySearchBar> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _controller,
-      decoration: InputDecoration(
-        labelText: '検索',
-        border: OutlineInputBorder(),
-      ),
-      onChanged: (text) {
-        print("Current text: $text");
-      },
+        controller: _controller,
+        decoration: InputDecoration(
+          hintText: '検索',
+          filled: true,
+          fillColor: Colors.grey.shade300,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide.none,
+          ),
 
-    );
+        ),
+        onChanged: (text) {
+          print("Current text: $text");
+        },
+      );
   }
 }
