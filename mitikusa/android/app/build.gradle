@@ -2,6 +2,8 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 }
 
 def localProperties = new Properties()
@@ -24,7 +26,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.mitikusa"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,8 +47,8 @@ android {
         applicationId "com.example.mitikusa"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -62,6 +64,20 @@ android {
 
 flutter {
     source '../..'
+}
+
+secrets {
+    // オプションでシークレットを含む異なるファイル名を指定できます。
+    // プラグインはデフォルトで "local.properties" を使用します。
+    propertiesFileName = "secrets.properties"
+
+    // バージョン管理に含めることができる、デフォルトのシークレット値を含むプロパティファイル。
+    defaultPropertiesFileName = "local.defaults.properties"
+
+    // プラグインによって無視されるキーを正規表現で指定して無視リストを構成できます。
+    // デフォルトでは "sdk.dir" が無視されます。
+    ignoreList.add("keyToIgnore") // キー "keyToIgnore" を無視
+    ignoreList.add("sdk.*")       // 正規表現 "sdk.*" に一致するすべてのキーを無視
 }
 
 dependencies {}
