@@ -9,11 +9,11 @@ class MySearchBar extends StatefulWidget {
 
 class MySearchBarState extends State<MySearchBar> {
   // テキストフィールドコントローラーの宣言
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void dispose() {
-    _controller.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -27,7 +27,7 @@ class MySearchBarState extends State<MySearchBar> {
         Container(
           height: 60,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(60),
             ),
             boxShadow: [
@@ -39,15 +39,15 @@ class MySearchBarState extends State<MySearchBar> {
 
         /* ------　　　　　　　　ここまで　　　　　　　　------ */
 
-        Container(
+        SizedBox(
           height: 60,
           child: TextField( // テキストフィールド
-            controller: _controller,  // テキストフィールドのコントローラーを設定
+            controller: _searchController,  // テキストフィールドのコントローラーを設定
             decoration: InputDecoration(
               hintText: '検索',
               filled: true,
               fillColor: Colors.grey.shade300,
-              suffixIcon: IconButton( // 検索バーの右にメニューボタンを表示する
+              suffixIcon: const IconButton( // 検索バーの右にメニューボタンを表示する
                 onPressed: null/* 表示できるものがないので仮でnullを置いておく */,
                 icon: Icon(Icons.menu),
                 iconSize: 30,
@@ -59,7 +59,7 @@ class MySearchBarState extends State<MySearchBar> {
               ),
             ),
             onChanged: (text) { // テキストが変わったら出力する
-              print("Current text: $text");
+              debugPrint("Current text: $text");
             },
           ),
         ),
