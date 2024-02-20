@@ -14,24 +14,15 @@ class MyTopState extends State<MyTop> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const SizedBox(
-      //     child: MySearchBar(),
-      //   ),
-      // ),
-      body:Stack(
+      body:Stack( // Mapの上に検索バーをおく
         children: [
           const MyMap(),
           AppBar(
+            // AppBarの背景色を透明にする
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: const MySearchBar(),
+            title: const MySearchBar(), // 検索バー
             ),
-          // Align(
-          //   alignment: Alignment(0, -1),
-          //
-          //   child: MySearchBar(),
-          // ),
         ],
       ),
     );
