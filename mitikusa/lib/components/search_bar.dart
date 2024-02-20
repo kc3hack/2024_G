@@ -9,11 +9,11 @@ class MySearchBar extends StatefulWidget {
 
 class MySearchBarState extends State<MySearchBar> {
   // テキストフィールドコントローラーの宣言
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void dispose() {
-    _controller.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -42,7 +42,7 @@ class MySearchBarState extends State<MySearchBar> {
         SizedBox(
           height: 60,
           child: TextField( // テキストフィールド
-            controller: _controller,  // テキストフィールドのコントローラーを設定
+            controller: _searchController,  // テキストフィールドのコントローラーを設定
             decoration: InputDecoration(
               hintText: '検索',
               filled: true,
