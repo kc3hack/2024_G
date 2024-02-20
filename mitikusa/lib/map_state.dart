@@ -64,15 +64,13 @@ class _MyMapState extends State<MyMap> {
   //マップの表示
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
+    return GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
         myLocationEnabled: true,//現在地をマップに表示
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
         },
-      ),
-    );
+      );
   }
 }
