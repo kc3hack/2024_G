@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mitikusa/screens/result_page.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MyInputPage extends StatefulWidget {
   final String destination;
@@ -26,7 +25,7 @@ class MyInputPageState extends State<MyInputPage> {
     super.initState();
 
     // データの初期化
-    _inputDepartController  = TextEditingController(text: '現在地');
+    _inputDepartController  = TextEditingController();
     _inputDestinationController = TextEditingController(text: widget.destination);
     Future(() async {
       _departPosition = await getCurrentPosition();
@@ -60,8 +59,10 @@ class MyInputPageState extends State<MyInputPage> {
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.grey.shade300,
+                            hintText: '現在地',
                             suffix: IconButton(
                               onPressed:  () async {
+                                _inputDepartController.clear();
                                 _departPosition = await getCurrentPosition();
                               },
                               icon: const Icon(Icons.gps_fixed),
