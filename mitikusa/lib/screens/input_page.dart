@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mitikusa/screens/result_page.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MyInputPage extends StatefulWidget {
   final String destination;
@@ -12,8 +14,12 @@ class MyInputPage extends StatefulWidget {
 class MyInputPageState extends State<MyInputPage> {
   // テキストフィールドコントローラーの宣言
   // 出発地
-  late TextEditingController _inputDepartController;
-  late TextEditingController _inputDestinationController;
+  late TextEditingController _inputDepartController;  // 出発地
+  late TextEditingController _inputDestinationController; // 目的地
+
+  // 緯度経度の保持用変数の宣言
+  late Position _departPosition;  // 出発地
+  late Position _destinationPosition; // 目的地
 
   @override
   void initState() {
@@ -22,6 +28,15 @@ class MyInputPageState extends State<MyInputPage> {
     // データの初期化
     _inputDepartController  = TextEditingController(text: '現在地');
     _inputDestinationController = TextEditingController(text: widget.destination);
+    Future(() async {
+      _departPosition = await getCurrentPosition();
+      setState(() {});
+    });
+  }
+
+  // 現在地の緯度経度を返す関数
+  Future<Position> getCurrentPosition() async {
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
@@ -42,6 +57,17 @@ class MyInputPageState extends State<MyInputPage> {
                     child: SizedBox(
                       child: TextField(
                         controller: _inputDepartController,
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.grey.shade300,
+                            suffix: IconButton(
+                              onPressed:  () async {
+                                _departPosition = await getCurrentPosition();
+                              },
+                              icon: const Icon(Icons.gps_fixed),
+                              iconSize: 20,
+                            )
+                        ),
                       ),
                     )
                 ),
@@ -58,6 +84,10 @@ class MyInputPageState extends State<MyInputPage> {
                     child: SizedBox(
                       child: TextField(
                         controller: _inputDestinationController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey.shade300,
+                            ),
                       ),
                     )
                 ),
@@ -74,8 +104,8 @@ class MyInputPageState extends State<MyInputPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => MyResultPage(
-                          depart: _inputDepartController.text,
-                          destination: _inputDestinationController.text,
+                          depart: _departPosition,
+                          destination: _destinationPosition,
                         ),
                       ),
                     );

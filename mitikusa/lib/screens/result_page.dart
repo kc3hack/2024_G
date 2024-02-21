@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MyResultPage extends StatelessWidget {
-  final String depart;
-  final String destination;
+  final Position depart;
+  final Position destination;
 
   const MyResultPage({Key? key, required this.depart, required this.destination}) : super(key: key);
 
@@ -17,13 +18,8 @@ class MyResultPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('次のページに渡されたデータ1:'),
-            const SizedBox(height: 8.0),
-            Text(depart),
-            const SizedBox(height: 16.0),
-            const Text('次のページに渡されたデータ2:'),
-            const SizedBox(height: 8.0),
-            Text(destination),
+            Text('出発地: $depart'),
+            Text('目的地: $destination'),
           ],
         ),
       ),
