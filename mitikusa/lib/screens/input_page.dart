@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitikusa/screens/result_page.dart';
 
 class MyInputPage extends StatefulWidget {
   final String destination;
@@ -64,7 +65,14 @@ class MyInputPageState extends State<MyInputPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyResultPage()
+                      ),
+                    );
+                  },
                   child: const Text('決定'),
                 ),
               ],
