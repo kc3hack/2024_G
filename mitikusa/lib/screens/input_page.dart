@@ -12,12 +12,16 @@ class MyInputPage extends StatefulWidget {
 class MyInputPageState extends State<MyInputPage> {
   // テキストフィールドコントローラーの宣言
   // 出発地
-  final TextEditingController _inputDepartController = TextEditingController();
+  late TextEditingController _inputDepartController;
+  late TextEditingController _inputDestinationController;
 
   @override
-  void dispose() {
-    _inputDepartController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+
+    // データの初期化
+    _inputDepartController  = TextEditingController(text: '現在地');
+    _inputDestinationController = TextEditingController(text: widget.destination);
   }
 
   @override
@@ -37,7 +41,7 @@ class MyInputPageState extends State<MyInputPage> {
                 Flexible(
                     child: SizedBox(
                       child: TextField(
-                        controller: TextEditingController(text: '現在地'),
+                        controller: _inputDepartController,
                       ),
                     )
                 ),
@@ -53,7 +57,7 @@ class MyInputPageState extends State<MyInputPage> {
                 Flexible(
                     child: SizedBox(
                       child: TextField(
-                        controller: TextEditingController(text: widget.destination),
+                        controller: _inputDestinationController,
                       ),
                     )
                 ),
@@ -69,7 +73,10 @@ class MyInputPageState extends State<MyInputPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const MyResultPage()
+                        builder: (context) => MyResultPage(
+                          depart: _inputDepartController.text,
+                          destination: _inputDestinationController.text,
+                        ),
                       ),
                     );
                   },
