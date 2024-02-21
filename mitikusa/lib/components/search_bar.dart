@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitikusa/screens/input_page.dart';
 
 class MySearchBar extends StatefulWidget {
   const MySearchBar({Key? key,}) : super(key: key);
@@ -29,8 +30,10 @@ class MySearchBarState extends State<MySearchBar> {
 
       /* ------ 　　　　　　　　　ここまで　　　　　　　　　 ------ */
 
-      /* ------ここから検索バーに影をつけるための処理 ------ */
       child: Container(
+
+        /* ------ここから検索バーに影をつけるための処理 ------ */
+
         height: 60,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
@@ -42,7 +45,7 @@ class MySearchBarState extends State<MySearchBar> {
           ],
         ),
 
-        /* ------ 　　　　　　　　ここまで　　　　　　　　 ------ */
+        /* ------ 　　　　　　　ここまで　　　　　　　 ------ */
 
         child: TextField( // テキストフィールド
           controller: _searchController,  // テキストフィールドのコントローラーを設定
@@ -61,9 +64,20 @@ class MySearchBarState extends State<MySearchBar> {
               borderSide: BorderSide.none,
             ),
           ),
-          onChanged: (text) { // テキストが変わったら出力する
-            debugPrint("Current text: $text");
-          },
+
+          /* ------ここから入力完了後にする処理 ------ */
+
+        onSubmitted: (String destination) {
+            // 入力後に詳しい情報入力ページに遷移
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyInputPage(
+                    destination: destination),
+            ),
+          );
+        },
+          /* ------ 　　　　　　　ここまで　　　　　　 ------ */
         ),
       ),
     );

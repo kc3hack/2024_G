@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyInputPage extends StatefulWidget {
-  const MyInputPage({Key? key,}) : super(key: key);
+  final String destination;
+  const MyInputPage({Key? key, required this.destination}) : super(key: key);
 
   @override
   State<MyInputPage> createState() => MyInputPageState();
@@ -13,7 +14,7 @@ class MyInputPageState extends State<MyInputPage> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Input Page'),
+        title: Text('Input Page ${widget.destination}'),
       ),
     );
   }
