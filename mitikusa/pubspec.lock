@@ -240,8 +240,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.4+3"
-<<<<<<< HEAD
-=======
   google_place:
     dependency: "direct main"
     description:
@@ -250,7 +248,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.7"
->>>>>>> 48f728e8f57fc58d424e72c288982336aca02ac0
   html:
     dependency: transitive
     description:
@@ -259,8 +256,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.4"
-<<<<<<< HEAD
-=======
   http:
     dependency: transitive
     description:
@@ -277,7 +272,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
->>>>>>> 48f728e8f57fc58d424e72c288982336aca02ac0
   js:
     dependency: transitive
     description:
