@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mitikusa/components/getLatLngFromString.dart';
 import 'package:mitikusa/screens/result_page.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MyInputPage extends StatefulWidget {
   final String destination;
@@ -17,8 +19,8 @@ class MyInputPageState extends State<MyInputPage> {
   late TextEditingController _inputDestinationController; // 目的地
 
   // 緯度経度の保持用変数の宣言
-  late Position _departPosition;  // 出発地
-  late Position _destinationPosition; // 目的地
+  late LatLng _departPosition;  // 出発地
+  late LatLng _destinationPosition; // 目的地
 
   @override
   void initState() {
@@ -27,15 +29,12 @@ class MyInputPageState extends State<MyInputPage> {
     // データの初期化
     _inputDepartController  = TextEditingController();
     _inputDestinationController = TextEditingController(text: widget.destination);
-    Future(() async {
-      _departPosition = await getCurrentPosition();
-      setState(() {});
-    });
   }
 
   // 現在地の緯度経度を返す関数
-  Future<Position> getCurrentPosition() async {
-    return await Geolocator.getCurrentPosition();
+  Future<LatLng> getCurrentPosition() async {
+    Position p = await Geolocator.getCurrentPosition();
+    return LatLng(p.latitude, p.longitude);
   }
 
   @override
@@ -61,9 +60,8 @@ class MyInputPageState extends State<MyInputPage> {
                             fillColor: Colors.grey.shade300,
                             hintText: '現在地',
                             suffix: IconButton(
-                              onPressed:  () async {
+                              onPressed:  () {
                                 _inputDepartController.clear();
-                                _departPosition = await getCurrentPosition();
                               },
                               icon: const Icon(Icons.gps_fixed),
                               iconSize: 20,
@@ -92,7 +90,7 @@ class MyInputPageState extends State<MyInputPage> {
                       ),
                     )
                 ),
-              ],
+              ],// 34.995532, 135.7629092
             ),
           ),
         Padding(
@@ -100,7 +98,17 @@ class MyInputPageState extends State<MyInputPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: (){
+                  onPressed: () async {
+                    // 出発地のテキストフィールドが空白かどうか
+                    if(_inputDepartController.text.trim().isEmpty){
+                      // 空白なら現在地の緯度経度を取得
+                      _departPosition = await getCurrentPosition();
+                    }else{
+                      // 入力があるならその場所の緯度経度を取得
+                      _departPosition = await getLatLngFromString(_inputDepartController.text);
+                    }
+                    _destinationPosition = await getLatLngFromString(_inputDestinationController.text);
+                    if (!context.mounted) return; // 非同期処理が終わったら以下を実行
                     Navigator.push(
                       context,
                       MaterialPageRoute(
