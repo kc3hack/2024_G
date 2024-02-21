@@ -13,16 +13,11 @@ class MyTopState extends State<MyTop> {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return const Scaffold(
       body:Stack( // Mapの上に検索バーをおく
         children: [
-          const MyMap(),
-          AppBar(
-            // AppBarの背景色を透明にする
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            title: const MySearchBar(), // 検索バー
-            ),
+          MyMap(),
+          MySearchBar(),
         ],
       ),
     );
