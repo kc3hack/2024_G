@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MyResultPage extends StatelessWidget {
-  final Position depart;
-  final Position destination;
+  final LatLng depart;
+  final LatLng destination;
 
   const MyResultPage({Key? key, required this.depart, required this.destination}) : super(key: key);
 
