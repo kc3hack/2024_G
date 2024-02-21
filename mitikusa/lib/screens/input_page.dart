@@ -29,11 +29,6 @@ class MyInputPageState extends State<MyInputPage> {
     // データの初期化
     _inputDepartController  = TextEditingController();
     _inputDestinationController = TextEditingController(text: widget.destination);
-    Future(() async {
-      _departPosition = await getCurrentPosition();
-      _destinationPosition = await getLatLngFromString(_inputDestinationController.text);
-      setState(() {});
-    });
   }
 
   // 現在地の緯度経度を返す関数
@@ -65,9 +60,8 @@ class MyInputPageState extends State<MyInputPage> {
                             fillColor: Colors.grey.shade300,
                             hintText: '現在地',
                             suffix: IconButton(
-                              onPressed:  () async {
+                              onPressed:  () {
                                 _inputDepartController.clear();
-                                _departPosition = await getCurrentPosition();
                               },
                               icon: const Icon(Icons.gps_fixed),
                               iconSize: 20,
@@ -96,7 +90,7 @@ class MyInputPageState extends State<MyInputPage> {
                       ),
                     )
                 ),
-              ],
+              ],// 34.995532, 135.7629092
             ),
           ),
         Padding(
@@ -104,7 +98,17 @@ class MyInputPageState extends State<MyInputPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: (){
+                  onPressed: () async {
+                    // 出発地のテキストフィールドが空白かどうか
+                    if(_inputDepartController.text.trim().isEmpty){
+                      // 空白なら現在地の緯度経度を取得
+                      _departPosition = await getCurrentPosition();
+                    }else{
+                      // 入力があるならその場所の緯度経度を取得
+                      _departPosition = await getLatLngFromString(_inputDepartController.text);
+                    }
+                    _destinationPosition = await getLatLngFromString(_inputDestinationController.text);
+                    if (!context.mounted) return; // 非同期処理が終わったら以下を実行
                     Navigator.push(
                       context,
                       MaterialPageRoute(
