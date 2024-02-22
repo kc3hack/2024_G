@@ -48,7 +48,6 @@ class MyInputPageState extends State<MyInputPage> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 const Text('出発地'),
                 const SizedBox(
@@ -99,6 +98,7 @@ class MyInputPageState extends State<MyInputPage> {
               ],// 34.995532, 135.7629092
             ),
           ),
+
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40), child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
