@@ -46,11 +46,14 @@ class MyInputPageState extends State<MyInputPage> {
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 const Text('出発地'),
-                const Spacer(),
+                const SizedBox(
+                  width: 80,
+                ),
                 Flexible(
                     child: SizedBox(
                       child: TextField(
@@ -59,17 +62,18 @@ class MyInputPageState extends State<MyInputPage> {
                             filled: true,
                             fillColor: Colors.grey.shade300,
                             hintText: '現在地',
-                            suffix: IconButton(
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.gps_fixed),
+                              iconSize: 20,
                               onPressed:  () {
                                 _inputDepartController.clear();
                               },
-                              icon: const Icon(Icons.gps_fixed),
-                              iconSize: 20,
                             )
                         ),
                       ),
                     )
                 ),
+
               ],
             ),
           ),
@@ -78,7 +82,9 @@ class MyInputPageState extends State<MyInputPage> {
             child: Row(
               children: <Widget>[
                 const Text('目的地'),
-                const Spacer(),
+                const SizedBox(
+                  width: 80,
+                ),
                 Flexible(
                     child: SizedBox(
                       child: TextField(
