@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:mitikusa/components/category_list.dart';
 import 'package:mitikusa/components/getLatLngFromString.dart';
 import 'package:mitikusa/screens/result_page.dart';
 import 'package:geolocator/geolocator.dart';
@@ -128,6 +129,7 @@ class MyInputPageState extends State<MyInputPage> {
               ],
             ),
           ),
+          const MyCategoryList(),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40), child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -160,6 +162,7 @@ class MyInputPageState extends State<MyInputPage> {
           )
           ),
         ],
+
       ),
     );
   }
