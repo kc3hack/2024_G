@@ -95,7 +95,7 @@ class MyInputPageState extends State<MyInputPage> {
                       ),
                     )
                 ),
-              ],// 34.995532, 135.7629092
+              ],
             ),
           ),
 
