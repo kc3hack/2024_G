@@ -64,9 +64,15 @@ class MyCategoryListState extends State<MyCategoryList> {
               ),
             )
         ),
-
       ],
     );
   }
 
+  String? getCategoryName() {
+    if(_index != -1){
+      return categoryList[categoryName[_index]];
+    } else {
+      return null;
+    }
+  }
 }
