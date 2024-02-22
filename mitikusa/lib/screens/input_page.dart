@@ -43,6 +43,13 @@ class MyInputPageState extends State<MyInputPage> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // データを返す
+              Navigator.pop(context, 'back');
+            },
+          ),
           title: const Text('検索')
       ),
       body: Column(

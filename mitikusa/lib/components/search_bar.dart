@@ -20,66 +20,72 @@ class MySearchBarState extends State<MySearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
+    return SafeArea(
+        child: Container(
+          margin: const EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 0),
 
-      /* ------ ここから検索バーの位置を指定するための処理 ------ */
+          /* ------ここから検索バーに影をつけるための処理 ------ */
 
-      top: 30.0,
-      left: 16.0,
-      right: 16.0,
-
-      /* ------ 　　　　　　　　　ここまで　　　　　　　　　 ------ */
-
-      child: Container(
-
-        /* ------ここから検索バーに影をつけるための処理 ------ */
-
-        height: 60,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(60),
-          ),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey, blurRadius: 5, spreadRadius: 5),
-          ],
-        ),
-
-        /* ------ 　　　　　　　ここまで　　　　　　　 ------ */
-
-        child: TextField( // テキストフィールド
-          controller: _searchController,  // テキストフィールドのコントローラーを設定
-          decoration: InputDecoration(
-            hintText: '目的地を検索',
-            filled: true,
-            fillColor: Colors.grey.shade300,
-            suffixIcon: const IconButton( // 検索バーの右にメニューボタンを表示する
-              onPressed: null/* 表示できるものがないので仮でnullを置いておく */,
-              icon: Icon(Icons.menu),
-              iconSize: 30,
-              padding: EdgeInsets.only(right: 15.0),
+          height: 60,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(60),
             ),
-            border: OutlineInputBorder( // 検索バーのボーダースタイルを設定する
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none,
-            ),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey, blurRadius: 10, spreadRadius: 3),
+            ],
           ),
 
-          /* ------ここから入力完了後にする処理 ------ */
+          /* ------ 　　　　　　　ここまで　　　　　　　 ------ */
 
-        onSubmitted: (String destination) {
-            // 入力後に詳しい情報入力ページに遷移
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyInputPage(
-                    destination: destination),
+          child: TextField( // テキストフィールド
+            controller: _searchController,  // テキストフィールドのコントローラーを設定
+            decoration: InputDecoration(
+              hintText: '目的地を検索',
+              filled: true,
+              fillColor: Colors.grey.shade300,
+              suffixIcon: const IconButton( // 検索バーの右にメニューボタンを表示する
+                onPressed: null/* 表示できるものがないので仮でnullを置いておく */,
+                icon: Icon(Icons.menu),
+                iconSize: 30,
+                padding: EdgeInsets.only(right: 15.0),
+              ),
+              border: OutlineInputBorder( // 検索バーのボーダースタイルを設定する
+                borderRadius: BorderRadius.circular(30.0),
+                borderSide: BorderSide.none,
+              ),
             ),
-          );
-        },
-          /* ------ 　　　　　　　ここまで　　　　　　 ------ */
+
+            /* ------ ここから入力完了後にする処理 ------ */
+
+            onSubmitted: (String destination) {
+              // 入力後に詳しい情報入力ページに遷移
+              // 帰ってきたときに結果を受け取る
+              final result = Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyInputPage(
+                      destination: destination),
+                ),
+              );
+
+              /* ------ ここから帰ってきた時の処理 ------ */
+              if(result != null) {
+                setState(() {
+                  _searchController.text = '';
+                });
+              }
+
+              /* ------ 　　　　　ここまで　　　　 ------ */
+
+            },
+
+            /* ------ 　　　　　　　ここまで　　　　　　 ------ */
+
+          ),
+
         ),
-      ),
     );
   }
 }
