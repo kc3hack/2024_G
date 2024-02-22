@@ -24,7 +24,7 @@ class MySearchBarState extends State<MySearchBar> {
 
       /* ------ ここから検索バーの位置を指定するための処理 ------ */
 
-      top: 16.0,
+      top: 30.0,
       left: 16.0,
       right: 16.0,
 
@@ -35,13 +35,13 @@ class MySearchBarState extends State<MySearchBar> {
         /* ------ここから検索バーに影をつけるための処理 ------ */
 
         height: 60,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(
             Radius.circular(60),
           ),
           boxShadow: [
             BoxShadow(
-                color: Colors.grey.shade200, blurRadius: 5, spreadRadius: 5),
+                color: Colors.grey, blurRadius: 5, spreadRadius: 5),
           ],
         ),
 
