@@ -14,6 +14,7 @@ class MyTopState extends State<MyTop> {
   @override
   Widget build(BuildContext context){
     return const Scaffold(
+      resizeToAvoidBottomInset: false,
       body:Stack( // Mapの上に検索バーをおく
         children: [
           MyMap(),
