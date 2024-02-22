@@ -26,10 +26,6 @@ class MyCategoryListState extends State<MyCategoryList> {
     'カフェ',
     'カジノ',
     'スーパーマーケット',
-    'mario',
-    'rui-ji',
-    'pi-chi',
-    'papa'
   ];
 
   @override
