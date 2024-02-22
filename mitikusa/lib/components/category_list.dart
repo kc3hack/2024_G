@@ -13,19 +13,28 @@ class MyCategoryListState extends State<MyCategoryList> {
 
   // カテゴリのマップ（key:value）
   Map<String, String> categoryList = {
-    'ATM' : 'ATM',
-    'パン屋' : 'BAKERY',
-    'カフェ' : 'CAFE',
-    'カジノ' : 'CASINO',
-    'スーパーマーケット' : 'SUPERMARKET',
+    'カフェ': 'cafe',
+    '公園': 'park',
+    'お店': 'store',
+    'レストラン': 'restaurant',
+    'カジノ': 'casino',
+    '温泉': 'spa',
+    '美術館': 'museum',
+    '水族館': 'aquarium',
+    '動物園': 'zoo',
+
   };
   // カテゴリのリスト（keyのみ）
   List<String> categoryName = [
-    'ATM',
-    'パン屋',
     'カフェ',
+    '公園',
+    'お店',
+    'レストラン',
     'カジノ',
-    'スーパーマーケット',
+    '温泉',
+    '美術館',
+    '水族館',
+    '動物園',
   ];
 
   @override
