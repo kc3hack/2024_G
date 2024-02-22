@@ -129,7 +129,15 @@ class MyInputPageState extends State<MyInputPage> {
               ],
             ),
           ),
-          const MyCategoryList(),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+            child: Row(
+              children: <Widget>[
+                Text('ミチクサスポット'),
+              ],
+            ),
+          ),
+          const Flexible(child: MyCategoryList()),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40), child: Row(
             mainAxisAlignment: MainAxisAlignment.end,

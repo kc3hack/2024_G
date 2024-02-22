@@ -9,6 +9,7 @@ class MyCategoryList extends StatefulWidget {
 
 class MyCategoryListState extends State<MyCategoryList> {
   bool _visible = false;
+  int _index = -1;
 
   // カテゴリのマップ（key:value）
   Map<String, String> categoryList = {
@@ -25,6 +26,10 @@ class MyCategoryListState extends State<MyCategoryList> {
     'カフェ',
     'カジノ',
     'スーパーマーケット',
+    'mario',
+    'rui-ji',
+    'pi-chi',
+    'papa'
   ];
 
   @override
@@ -37,28 +42,33 @@ class MyCategoryListState extends State<MyCategoryList> {
                 _visible = !_visible;
               });
             },
-            child: const Text('選択')
+            child: (_index == -1)? const Text('選択') : Text(categoryName[_index])
         ),
-        Visibility(
-            visible: _visible,
-            child: Center(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: categoryName.length,
-                itemBuilder: (BuildContext context,int index) {
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        categoryName[index],
-                        style: const TextStyle(fontSize: 22.0),
-                      ),
-                    ),
-                  );
-                },
+        Flexible(
+            child: Visibility(
+              visible: _visible,
+              child: Center(
+                child: ListView.builder(
+                  itemCount: categoryName.length,
+                  itemBuilder: (BuildContext context,int index) {
+                    return Card(
+                        child: ListTile(
+                          onTap: () {
+                            setState(() {
+                              _index = index;
+                              _visible = !_visible;
+                            });
+                            _index = index;
+                          },
+                          title: Text(categoryName[index]),
+                        )
+                    );
+                  },
+                ),
               ),
             )
-        )
+        ),
+
       ],
     );
   }
