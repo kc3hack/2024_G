@@ -4,15 +4,29 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4d44516-4db2-48b4-8e6e-f7b9b162e636" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mitikusa/lib/components/getLatLngFromString.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e4d44516-4db2-48b4-8e6e-f7b9b162e636" name="Changes" comment="メニューページを書きました">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/2024_G.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/2024_G.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/.dart_tool/package_config_subset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mitikusa/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mitikusa/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/7.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mitikusa/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mitikusa/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mitikusa/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/ios/Flutter/Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/ios/Flutter/Generated.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/macos/Flutter/ephemeral/Flutter-Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/macos/Flutter/ephemeral/Flutter-Generated.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/macos/Flutter/ephemeral/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/macos/Flutter/ephemeral/flutter_export_environment.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mitikusa/windows/flutter/ephemeral/.plugin_symlinks/geolocator_windows" beforeDir="false" afterPath="$PROJECT_DIR$/mitikusa/windows/flutter/ephemeral/.plugin_symlinks/geolocator_windows" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +44,24 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="dev" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -45,14 +77,26 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "feature/getLatLngFromString",
+    "git-widget-placeholder": "feature/make__menu",
+    "io.flutter.reload.alreadyRun": "true",
+    "settings.editor.selected.configurable": "flutter.settings",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/mitikusa/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -62,6 +106,19 @@
       <option name="presentableId" value="Default" />
       <updated>1708534908351</updated>
     </task>
+    <task id="LOCAL-00001" summary="メニューページを書きました">
+      <option name="closed" value="true" />
+      <created>1708632971072</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1708632971072</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="メニューページを書きました" />
+    <option name="LAST_COMMIT_MESSAGE" value="メニューページを書きました" />
   </component>
 </project>
