@@ -15,7 +15,7 @@ class MyMap extends StatefulWidget {
   final gmaps.LatLng? intermediateLatLng; // 中継地の緯度経度
   final gmaps.LatLng? destinationLatLng; // 到着地の緯度経度
   final groutes.TravelMode? travelMode; // 移動手段
-  final void Function(String duration)? setDuration; // ルートの所要時間を取得するコールバック関数
+  final void Function(Duration duration)? onRouteSet; // ルートの所要時間を取得するコールバック関数
 
   const MyMap({
     super.key,
@@ -24,7 +24,7 @@ class MyMap extends StatefulWidget {
     this.intermediateLatLng,
     this.destinationLatLng,
     this.travelMode,
-    this.setDuration,
+    this.onRouteSet,
   });
 
   @override
@@ -32,14 +32,14 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  Position? currentPosition; // 現在位置
-  late StreamSubscription<Position> positionStream; // 現在位置取得ストリーム
+  Position? _currentPosition; // 現在位置
+  late StreamSubscription<Position> _positionStream; // 現在位置取得ストリーム
   late gmaps.GoogleMapController _googleMapController; // Google Map Controller
   final Set<gmaps.Polyline> _polylines = {}; // ポリラインたち
   final PolylinePoints _polylinePoints =
       PolylinePoints(); // PolylinePointsパッケージを利用するためのオブジェクトインスタンス
   final Set<gmaps.Marker> _markers = {}; // マーカーたち
-  late String _duration; // ルートの所要時間
+  late Duration _duration; // ルートの所要時間
 
   //初期位置の設定
   final gmaps.CameraPosition _initialCameraPosition =
@@ -74,7 +74,7 @@ class _MyMapState extends State<MyMap> {
   }
 
   // ルートを設定
-  Future<void> setRoute(
+  Future<void> _setRoute(
     gmaps.LatLng originLatLng,
     gmaps.LatLng intermediateLatLng,
     gmaps.LatLng destinationLatLng,
@@ -106,49 +106,48 @@ class _MyMapState extends State<MyMap> {
       ),
     );
 
-    // 徒歩
-    if (travelMode == groutes.TravelMode.walk) {
-      // ルートを計算
-      computeRoutesResult = await groutes.computeRoute(
-        origin: origin,
-        intermediates: [intermediate],
-        destination: destination,
-        xGoogFieldMask: 'routes.duration,routes.polyline.encodedPolyline',
-        apiKey: apiKey,
-        travelMode: travelMode,
-      );
+    // ルートを計算
+    computeRoutesResult = await groutes.computeRoute(
+      origin: origin,
+      intermediates: [intermediate],
+      destination: destination,
+      xGoogFieldMask: 'routes.duration,routes.polyline.encodedPolyline',
+      apiKey: 'AIzaSyDhRVFSgNwTz3-_LVr3hGcJqcqLWTZwgVc',
+      travelMode: travelMode,
+    );
 
-      // encodedPolylineを取得
-      final String encodedPolyline =
-          computeRoutesResult.routes!.first.polyline!.encodedPolyline!;
+    // encodedPolylineを取得
+    final String encodedPolyline =
+        computeRoutesResult.routes!.first.polyline!.encodedPolyline!;
 
-      // encodedPolylineをデコード
-      final List<PointLatLng> pointLatLngs =
-          _polylinePoints.decodePolyline(encodedPolyline);
+    // encodedPolylineをデコード
+    final List<PointLatLng> pointLatLngs =
+        _polylinePoints.decodePolyline(encodedPolyline);
 
-      // gmaps.LatLng型に変換
-      final List<gmaps.LatLng> points = [
-        for (PointLatLng pointLatLng in pointLatLngs)
-          gmaps.LatLng(pointLatLng.latitude, pointLatLng.longitude)
-      ];
-
-      setState(() {
-        // 所要時間を取得
-        _duration = computeRoutesResult.routes!.first.duration!;
-        widget.setDuration!(_duration);
-
-        // ポリラインを設置
-        _polylines.add(gmaps.Polyline(
-          polylineId: const gmaps.PolylineId("route"),
-          visible: true,
-          color: Colors.blue,
-          width: 5,
-          points: points,
-        ));
-      });
-    }
+    // gmaps.LatLng型に変換
+    final List<gmaps.LatLng> points = [
+      for (PointLatLng pointLatLng in pointLatLngs)
+        gmaps.LatLng(pointLatLng.latitude, pointLatLng.longitude)
+    ];
 
     setState(() {
+      // 所要時間を取得
+      String durationString = computeRoutesResult.routes!.first.duration!;
+      _duration = Duration(
+        seconds: int.parse(
+          durationString.substring(0, durationString.length - 1),
+        ),
+      );
+
+      // ポリラインを設置
+      _polylines.add(gmaps.Polyline(
+        polylineId: const gmaps.PolylineId("route"),
+        visible: true,
+        color: Colors.blue,
+        width: 5,
+        points: points,
+      ));
+
       // マーカーを設置
       _markers
         ..add(gmaps.Marker(
@@ -184,6 +183,8 @@ class _MyMapState extends State<MyMap> {
         padding,
       ),
     );
+
+    widget.onRouteSet!(_duration);
   }
 
   @override
@@ -199,11 +200,11 @@ class _MyMapState extends State<MyMap> {
     });
 
     //現在位置を更新し続ける
-    positionStream =
+    _positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? position) {
       setState(() {
-        currentPosition = position;
+        _currentPosition = position;
       });
     });
   }
