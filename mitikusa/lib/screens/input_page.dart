@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:mitikusa/components/category_list.dart';
 import 'package:mitikusa/components/getLatLngFromString.dart';
 import 'package:mitikusa/screens/result_page.dart';
 import 'package:geolocator/geolocator.dart';
@@ -41,16 +44,25 @@ class MyInputPageState extends State<MyInputPage> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // データを返す
+              Navigator.pop(context, 'back');
+            },
+          ),
           title: const Text('検索')
       ),
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
             child: Row(
               children: <Widget>[
                 const Text('出発地'),
-                const Spacer(),
+                const SizedBox(
+                  width: 80,
+                ),
                 Flexible(
                     child: SizedBox(
                       child: TextField(
@@ -59,26 +71,29 @@ class MyInputPageState extends State<MyInputPage> {
                             filled: true,
                             fillColor: Colors.grey.shade300,
                             hintText: '現在地',
-                            suffix: IconButton(
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.gps_fixed),
+                              iconSize: 20,
                               onPressed:  () {
                                 _inputDepartController.clear();
                               },
-                              icon: const Icon(Icons.gps_fixed),
-                              iconSize: 20,
                             )
                         ),
                       ),
                     )
                 ),
+
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
             child: Row(
               children: <Widget>[
                 const Text('目的地'),
-                const Spacer(),
+                const SizedBox(
+                  width: 80,
+                ),
                 Flexible(
                     child: SizedBox(
                       child: TextField(
@@ -86,45 +101,76 @@ class MyInputPageState extends State<MyInputPage> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.grey.shade300,
-                            ),
+                        ),
                       ),
                     )
                 ),
-              ],// 34.995532, 135.7629092
+              ],
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40), child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+          const Divider(
+            height: 50,
+            thickness: 1,
+            indent: 30,
+            endIndent: 30,
+            color: Colors.black,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+            child: Row(
               children: <Widget>[
-                ElevatedButton(
-                  onPressed: () async {
-                    // 出発地のテキストフィールドが空白かどうか
-                    if(_inputDepartController.text.trim().isEmpty){
-                      // 空白なら現在地の緯度経度を取得
-                      _departPosition = await getCurrentPosition();
-                    }else{
-                      // 入力があるならその場所の緯度経度を取得
-                      _departPosition = await getLatLngFromString(_inputDepartController.text);
-                    }
-                    _destinationPosition = await getLatLngFromString(_inputDestinationController.text);
-                    if (!context.mounted) return; // 非同期処理が終わったら以下を実行
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyResultPage(
-                          depart: _departPosition,
-                          destination: _destinationPosition,
-                        ),
-                      ),
-                    );
-                  },
-                  child: const Text('決定'),
+                Text(
+                  'ミチクサ設定',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
-            )
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+            child: Row(
+              children: <Widget>[
+                Text('ミチクサスポット'),
+              ],
+            ),
+          ),
+          const Flexible(child: MyCategoryList()),
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40), child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () async {
+                  // 出発地のテキストフィールドが空白かどうか
+                  if(_inputDepartController.text.trim().isEmpty){
+                    // 空白なら現在地の緯度経度を取得
+                    _departPosition = await getCurrentPosition();
+                  }else{
+                    // 入力があるならその場所の緯度経度を取得
+                    _departPosition = await getLatLngFromString(_inputDepartController.text);
+                  }
+                  _destinationPosition = await getLatLngFromString(_inputDestinationController.text);
+                  if (!context.mounted) return; // 非同期処理が終わったら以下を実行
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyResultPage(
+                        depart: _departPosition,
+                        destination: _destinationPosition,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('決定'),
+              ),
+            ],
+          )
           ),
         ],
+
       ),
     );
   }
