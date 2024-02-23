@@ -25,6 +25,9 @@ class MyInputPageState extends State<MyInputPage> {
   late LatLng _departPosition;  // 出発地
   late LatLng _destinationPosition; // 目的地
 
+  final MyCategoryList myCategoryList = const MyCategoryList();
+  late String? _key;
+
   @override
   void initState() {
     super.initState();
@@ -154,12 +157,16 @@ class MyInputPageState extends State<MyInputPage> {
                   }
                   _destinationPosition = await getLatLngFromString(_inputDestinationController.text);
                   if (!context.mounted) return; // 非同期処理が終わったら以下を実行
+                  myCategoryList.getKey((String? key) {
+                    _key = key;
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MyResultPage(
                         depart: _departPosition,
                         destination: _destinationPosition,
+                        category: _key,
                       ),
                     ),
                   );

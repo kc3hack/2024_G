@@ -5,8 +5,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class MyResultPage extends StatelessWidget {
   final LatLng depart;
   final LatLng destination;
+  final String? category;
 
-  const MyResultPage({Key? key, required this.depart, required this.destination}) : super(key: key);
+  const MyResultPage({Key? key,
+    required this.depart,
+    required this.destination,
+    required this.category,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -21,6 +26,7 @@ class MyResultPage extends StatelessWidget {
           children: [
             Text('出発地: $depart'),
             Text('目的地: $destination'),
+            Text('検索キーワード: $category'),
           ],
         ),
       ),

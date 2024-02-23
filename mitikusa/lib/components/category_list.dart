@@ -5,11 +5,15 @@ class MyCategoryList extends StatefulWidget {
 
   @override
   State<MyCategoryList> createState() =>  MyCategoryListState();
+
+  void getKey(void Function(String?) callback) {
+    MyCategoryListState().internalGetKey(callback);
+  }
 }
 
 class MyCategoryListState extends State<MyCategoryList> {
   bool _visible = false;
-  int _index = -1;
+  int _index = 0;
 
   // カテゴリのマップ（key:value）
   Map<String, String> categoryList = {
@@ -36,6 +40,11 @@ class MyCategoryListState extends State<MyCategoryList> {
     '水族館',
     '動物園',
   ];
+
+  // MyCategoryListから呼び出すための内部メソッド
+  void internalGetKey(void Function(String?) callback) {
+    callback(categoryList[categoryName[_index]]);
+  }
 
   @override
   Widget build(BuildContext context){
@@ -75,13 +84,5 @@ class MyCategoryListState extends State<MyCategoryList> {
         ),
       ],
     );
-  }
-
-  String? getCategoryName() {
-    if(_index != -1){
-      return categoryList[categoryName[_index]];
-    } else {
-      return null;
-    }
   }
 }
