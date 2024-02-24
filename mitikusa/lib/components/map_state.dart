@@ -37,19 +37,13 @@ class _MyMapState extends State<MyMap> {
   late gmaps.GoogleMapController _googleMapController; // Google Map Controller
   final Set<gmaps.Polyline> _polylines = {}; // ポリラインたち
   final PolylinePoints _polylinePoints =
-      PolylinePoints(); // PolylinePointsパッケージを利用するためのオブジェクトインスタンス
+      PolylinePoints(); // flutter_polyline_pointsパッケージを利用するためのオブジェクトインスタンス
   final Set<gmaps.Marker> _markers = {}; // マーカーたち
   late Duration _duration; // ルートの所要時間
-
-  //初期位置の設定
-  final gmaps.CameraPosition _initialCameraPosition =
-      const gmaps.CameraPosition(
-    target: gmaps.LatLng(36.204823999999995, 138.252924),
-    zoom: 14.0,
-  );
+  late gmaps.CameraPosition _initialCameraPosition; // カメラの初期位置
 
   // 現在位置取得に関する設定
-  final LocationSettings locationSettings = const LocationSettings(
+  final LocationSettings _locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.high, //正確性:highはAndroid(0-100m),iOS(10m)
     distanceFilter: 100,
   );
@@ -80,7 +74,7 @@ class _MyMapState extends State<MyMap> {
     gmaps.LatLng destinationLatLng,
     groutes.TravelMode travelMode,
   ) async {
-    late groutes.ComputeRouteResult computeRoutesResult;
+    // 出発地
     final groutes.Waypoint origin = groutes.Waypoint(
       location: groutes.Location(
         latLng: groutes.LatLng(
@@ -89,6 +83,7 @@ class _MyMapState extends State<MyMap> {
         ),
       ),
     );
+    // 中継地
     final groutes.Waypoint intermediate = groutes.Waypoint(
       location: groutes.Location(
         latLng: groutes.LatLng(
@@ -97,6 +92,7 @@ class _MyMapState extends State<MyMap> {
         ),
       ),
     );
+    // 目的地
     final groutes.Waypoint destination = groutes.Waypoint(
       location: groutes.Location(
         latLng: groutes.LatLng(
@@ -106,13 +102,14 @@ class _MyMapState extends State<MyMap> {
       ),
     );
 
-    // ルートを計算
-    computeRoutesResult = await groutes.computeRoute(
+    // ルートを検索
+    final groutes.ComputeRouteResult computeRoutesResult =
+        await groutes.computeRoute(
       origin: origin,
       intermediates: [intermediate],
       destination: destination,
       xGoogFieldMask: 'routes.duration,routes.polyline.encodedPolyline',
-      apiKey: 'AIzaSyDhRVFSgNwTz3-_LVr3hGcJqcqLWTZwgVc',
+      apiKey: apiKey,
       travelMode: travelMode,
     );
 
@@ -156,7 +153,7 @@ class _MyMapState extends State<MyMap> {
           position: originLatLng,
         ))
         ..add(gmaps.Marker(
-          markerId: const gmaps.MarkerId('waypoint'),
+          markerId: const gmaps.MarkerId('intermediate'),
           infoWindow: const gmaps.InfoWindow(title: '中継地'),
           position: intermediateLatLng,
           icon: gmaps.BitmapDescriptor.defaultMarkerWithHue(
@@ -184,6 +181,7 @@ class _MyMapState extends State<MyMap> {
       ),
     );
 
+    // 所要時間を渡す
     widget.onRouteSet!(_duration);
   }
 
@@ -201,12 +199,30 @@ class _MyMapState extends State<MyMap> {
 
     //現在位置を更新し続ける
     _positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
+        Geolocator.getPositionStream(locationSettings: _locationSettings)
             .listen((Position? position) {
       setState(() {
         _currentPosition = position;
       });
     });
+
+    // カメラの初期位置を現在地に設定
+    Geolocator.getCurrentPosition().then((Position position) {
+      _initialCameraPosition = gmaps.CameraPosition(
+        target: gmaps.LatLng(position.latitude, position.longitude),
+        zoom: 14.0,
+      );
+    });
+
+    // 指定されているならばルートを設定
+    if (widget.doSetRoute) {
+      _setRoute(
+        widget.originLatLng!,
+        widget.intermediateLatLng!,
+        widget.destinationLatLng!,
+        widget.travelMode!,
+      );
+    }
   }
 
   //マップの表示
