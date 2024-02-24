@@ -44,13 +44,22 @@ class MyCategoryListState extends State<MyCategoryList> {
 
     return Column(
       children: [
-        ElevatedButton(
+        OutlinedButton(
           onPressed: () {
             setState(() {
               _visible = !_visible;
             });
           },
-          child: (_index == -1) ? const Text('選択') : Text(categoryName[_index]),
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(
+              color: Colors.grey,
+              width: 1,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            )
+          ),
+          child: Text(categoryName[_index]),
         ),
         Flexible(
           child: Visibility(
@@ -68,7 +77,9 @@ class MyCategoryListState extends State<MyCategoryList> {
                         });
                         widget.onSelected(categoryList[categoryName[_index]]!);
                       },
-                      title: Text(categoryName[index]),
+                      title: Text(
+                        categoryName[index],
+                        textAlign: TextAlign.center,),
                     ),
                   );
                 },
