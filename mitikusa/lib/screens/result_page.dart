@@ -66,8 +66,16 @@ class _MyResultPageState extends State<MyResultPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100.0,
-        title: Text(
-          '検索結果\n移動手段: ${travelModeString[_travelMode]}\n所要時間: ${_duration.inMinutes}分',
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '検索結果',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            Text('移動手段: ${travelModeString[_travelMode]}'),
+            Text('所要時間: ${_duration.inMinutes}分'),
+          ],
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

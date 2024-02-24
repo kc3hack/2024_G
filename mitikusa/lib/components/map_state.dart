@@ -173,19 +173,26 @@ class _MyMapState extends State<MyMap> {
       _markers
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('origin'),
-          infoWindow: gmaps.InfoWindow(title: '出発地:${widget.originName}'),
+          infoWindow:
+              gmaps.InfoWindow(title: widget.originName, snippet: '出発地'),
           position: originLatLng,
+          icon: gmaps.BitmapDescriptor.defaultMarkerWithHue(
+            gmaps.BitmapDescriptor.hueBlue,
+          ),
         ))
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('intermediate'),
-          infoWindow: gmaps.InfoWindow(title: '中継地:${widget.intermediateName}'),
+          infoWindow:
+              gmaps.InfoWindow(title: widget.intermediateName, snippet: '中継地'),
           position: intermediateLatLng,
           icon: gmaps.BitmapDescriptor.defaultMarkerWithHue(
-              gmaps.BitmapDescriptor.hueGreen),
+            gmaps.BitmapDescriptor.hueGreen,
+          ),
         ))
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('destination'),
-          infoWindow: gmaps.InfoWindow(title: '目的地:${widget.destinationName}'),
+          infoWindow:
+              gmaps.InfoWindow(title: widget.destinationName, snippet: '目的地'),
           position: destinationLatLng,
         ));
     });
