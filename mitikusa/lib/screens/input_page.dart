@@ -186,12 +186,11 @@ class MyInputPageState extends State<MyInputPage> {
                                 _destinationPosition.longitude) /
                             2.0,
                       );
-                      List<({LatLng latLng, String name})>
-                          intermediatePositions = await MitikusaSearch()
+                      ({LatLng latLng, String name}) intermediatePosition =
+                          await MitikusaSearch()
                               .searchPlace(middlePosition, _category);
-                      _intermediatePosition =
-                          intermediatePositions.first.latLng;
-                      _intermediateName = intermediatePositions.first.name;
+                      _intermediatePosition = intermediatePosition.latLng;
+                      _intermediateName = intermediatePosition.name;
                     }).then((_) {
                       Navigator.of(context).push(
                         MaterialPageRoute(
