@@ -40,7 +40,11 @@ dependencies:
   geocoding: ^2.1.1
   google_place: ^0.4.7
   flutter_launcher_icons: ^0.13.1
+  google_routes_flutter: ^1.0.0+1
+  flutter_polyline_points: ^2.0.0
 
+dependency_overrides:
+  http: '^1.2.0'
 
 dev_dependencies:
   flutter_test:
