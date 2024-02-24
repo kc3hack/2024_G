@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mitikusa/components/category_list.dart';
-import 'package:mitikusa/components/getLatLngFromString.dart';
+import 'package:mitikusa/components/getPlaceFromString.dart';
 import 'package:mitikusa/components/search_system.dart';
 import 'package:mitikusa/screens/result_page.dart';
 
 class MyInputPage extends StatefulWidget {
   final String destination;
-  const MyInputPage({Key? key, required this.destination}) : super(key: key);
+  const MyInputPage({super.key, required this.destination});
 
   @override
   State<MyInputPage> createState() => MyInputPageState();
@@ -150,55 +150,62 @@ class MyInputPageState extends State<MyInputPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: () async {
-                    // 出発地のテキストフィールドが空白かどうか
-                    if (_inputDepartController.text.trim().isEmpty) {
-                      // 空白なら現在地の緯度経度を取得
-                      _departPosition = await getCurrentPosition();
-                      _departName = '現在地';
-                    } else {
-                      // 入力があるならその場所の緯度経度を取得
-                      _departPosition = await getLatLngFromString(
-                          _inputDepartController.text);
-                      _departName = _inputDepartController.text;
-                    }
-                    // 目的地
-                    _destinationPosition = await getLatLngFromString(
-                        _inputDestinationController.text);
-                    _destinationName = _inputDestinationController.text;
+                  onPressed: () {
+                    Future(() async {
+                      // 出発地のテキストフィールドが空白かどうか
+                      if (_inputDepartController.text.trim().isEmpty) {
+                        // 空白なら現在地の緯度経度を取得
+                        _departPosition = await getCurrentPosition();
+                        _departName = '現在地';
+                      } else {
+                        // 入力があるならその場所の緯度経度を取得
+                        ({LatLng latLng, String name}) place =
+                            await getPlaceFromString(
+                                _inputDepartController.text);
+                        _departPosition = place.latLng;
+                        _departName = place.name;
+                      }
+                      // 目的地
+                      ({LatLng latLng, String name}) place =
+                          await getPlaceFromString(
+                              _inputDestinationController.text);
 
-                    // キーワードを取得
-                    myCategoryList.getKey((String? keyword) {
-                      _keyword = keyword ?? '';
-                    });
-                    // キーワードから中継地を検索
-                    LatLng middlePosition = LatLng(
-                      (_departPosition.latitude +
-                              _destinationPosition.latitude) /
-                          2.0,
-                      (_departPosition.longitude +
-                              _destinationPosition.longitude) /
-                          2.0,
-                    );
-                    List<({LatLng latLng, String name})> intermediatePositions =
-                        await MitikusaSearch()
-                            .searchPlace(middlePosition, _keyword);
-                    _intermediatePosition = intermediatePositions.first.latLng;
-                    _intermediateName = intermediatePositions.first.name;
+                      _destinationPosition = place.latLng;
+                      _destinationName = place.name;
 
-                    if (!context.mounted) return; // 非同期処理が終わったら以下を実行
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => MyResultPage(
-                          originLatLng: _departPosition,
-                          originName: _departName,
-                          intermediateLatLng: _intermediatePosition,
-                          intermediateName: _intermediateName,
-                          destinationLatLng: _destinationPosition,
-                          destinationName: _destinationName,
+                      // キーワードを取得
+                      myCategoryList.getKey((String? keyword) {
+                        _keyword = keyword ?? '';
+                      });
+                      // キーワードから中継地を検索
+                      LatLng middlePosition = LatLng(
+                        (_departPosition.latitude +
+                                _destinationPosition.latitude) /
+                            2.0,
+                        (_departPosition.longitude +
+                                _destinationPosition.longitude) /
+                            2.0,
+                      );
+                      List<({LatLng latLng, String name})>
+                          intermediatePositions = await MitikusaSearch()
+                              .searchPlace(middlePosition, _keyword);
+                      _intermediatePosition =
+                          intermediatePositions.first.latLng;
+                      _intermediateName = intermediatePositions.first.name;
+                    }).then((_) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MyResultPage(
+                            originLatLng: _departPosition,
+                            originName: _departName,
+                            intermediateLatLng: _intermediatePosition,
+                            intermediateName: _intermediateName,
+                            destinationLatLng: _destinationPosition,
+                            destinationName: _destinationName,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    });
                   },
                   child: const Text('決定'),
                 ),
