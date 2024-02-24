@@ -28,8 +28,7 @@ class MyInputPageState extends State<MyInputPage> {
   late LatLng _destinationPosition; // 目的地
   late String _destinationName;
 
-  final MyCategoryList myCategoryList = const MyCategoryList();
-  late String _keyword;
+  late String _category;
 
   @override
   void initState() {
@@ -45,6 +44,11 @@ class MyInputPageState extends State<MyInputPage> {
   Future<LatLng> getCurrentPosition() async {
     Position p = await Geolocator.getCurrentPosition();
     return LatLng(p.latitude, p.longitude);
+  }
+
+  // カテゴリーリストの項目が選択されたときに呼び出されるコールバック関数
+  void _onSelected(String category) {
+    _category = category;
   }
 
   @override
@@ -143,7 +147,7 @@ class MyInputPageState extends State<MyInputPage> {
               ],
             ),
           ),
-          const Flexible(child: MyCategoryList()),
+          Flexible(child: MyCategoryList(onSelected: _onSelected)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
             child: Row(
@@ -173,11 +177,7 @@ class MyInputPageState extends State<MyInputPage> {
                       _destinationPosition = place.latLng;
                       _destinationName = place.name;
 
-                      // キーワードを取得
-                      myCategoryList.getKey((String? keyword) {
-                        _keyword = keyword ?? '';
-                      });
-                      // キーワードから中継地を検索
+                      // カテゴリから中継地を検索
                       LatLng middlePosition = LatLng(
                         (_departPosition.latitude +
                                 _destinationPosition.latitude) /
@@ -188,7 +188,7 @@ class MyInputPageState extends State<MyInputPage> {
                       );
                       List<({LatLng latLng, String name})>
                           intermediatePositions = await MitikusaSearch()
-                              .searchPlace(middlePosition, _keyword);
+                              .searchPlace(middlePosition, _category);
                       _intermediatePosition =
                           intermediatePositions.first.latLng;
                       _intermediateName = intermediatePositions.first.name;
