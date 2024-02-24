@@ -40,7 +40,13 @@ class _MyMapState extends State<MyMap> {
       PolylinePoints(); // flutter_polyline_pointsパッケージを利用するためのオブジェクトインスタンス
   final Set<gmaps.Marker> _markers = {}; // マーカーたち
   late Duration _duration; // ルートの所要時間
-  late gmaps.CameraPosition _initialCameraPosition; // カメラの初期位置
+
+  // カメラの初期位置
+  final gmaps.CameraPosition _initialCameraPosition =
+      const gmaps.CameraPosition(
+    target: gmaps.LatLng(36.204823999999995, 138.252924),
+    zoom: 4.0,
+  );
 
   // 現在位置取得に関する設定
   final LocationSettings _locationSettings = const LocationSettings(
@@ -65,6 +71,18 @@ class _MyMapState extends State<MyMap> {
   // GoogleMap.onMapCreated コールバック
   void _onMapCreated(gmaps.GoogleMapController googleMapController) {
     _googleMapController = googleMapController;
+
+    // カメラを現在地に設定
+    Geolocator.getCurrentPosition().then((Position position) {
+      _googleMapController.moveCamera(
+        gmaps.CameraUpdate.newCameraPosition(
+          gmaps.CameraPosition(
+            target: gmaps.LatLng(position.latitude, position.longitude),
+            zoom: 14.0,
+          ),
+        ),
+      );
+    });
   }
 
   // ルートを設定
@@ -204,14 +222,6 @@ class _MyMapState extends State<MyMap> {
       setState(() {
         _currentPosition = position;
       });
-    });
-
-    // カメラの初期位置を現在地に設定
-    Geolocator.getCurrentPosition().then((Position position) {
-      _initialCameraPosition = gmaps.CameraPosition(
-        target: gmaps.LatLng(position.latitude, position.longitude),
-        zoom: 14.0,
-      );
     });
 
     // 指定されているならばルートを設定
