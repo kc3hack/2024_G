@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mitikusa/components/search_bar.dart';
 import 'package:mitikusa/components/map_state.dart';
+import 'package:mitikusa/components/search_bar.dart';
 
 class MyTop extends StatefulWidget {
   const MyTop({
@@ -19,7 +19,7 @@ class MyTopState extends State<MyTop> {
       body: Stack(
         // Mapの上に検索バーをおく
         children: [
-          MyMap(),
+          MyMap(padding: EdgeInsets.only(top: 100.0)),
           MySearchBar(),
         ],
       ),

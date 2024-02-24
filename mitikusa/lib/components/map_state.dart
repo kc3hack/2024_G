@@ -19,6 +19,7 @@ class MyMap extends StatefulWidget {
   final String? destinationName; //出発地の名前
   final groutes.TravelMode? travelMode; // 移動手段
   final void Function(Duration duration)? onRouteSet; // ルートの所要時間を取得するコールバック関数
+  final EdgeInsets padding; // パディング
 
   const MyMap({
     super.key,
@@ -31,6 +32,7 @@ class MyMap extends StatefulWidget {
     this.destinationName,
     this.travelMode,
     this.onRouteSet,
+    this.padding = EdgeInsets.zero,
   });
 
   @override
@@ -258,6 +260,7 @@ class _MyMapState extends State<MyMap> {
       onMapCreated: _onMapCreated,
       polylines: _polylines,
       markers: _markers,
+      padding: widget.padding,
     );
   }
 }
