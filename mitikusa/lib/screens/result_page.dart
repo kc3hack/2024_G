@@ -1,35 +1,93 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_routes_flutter/google_routes_flutter.dart'
+    show TravelMode;
 
-class MyResultPage extends StatelessWidget {
-  final LatLng depart;
-  final LatLng destination;
-  final String? category;
+import '../components/map_state.dart';
 
-  const MyResultPage({Key? key,
-    required this.depart,
-    required this.destination,
-    required this.category,
-  }) : super(key: key);
+class MyResultPage extends StatefulWidget {
+  final LatLng originLatLng;
+  final String originName;
+  final LatLng intermediateLatLng;
+  final String intermediateName;
+  final LatLng destinationLatLng;
+  final String destinationName;
+
+  const MyResultPage({
+    super.key,
+    required this.originLatLng,
+    required this.originName,
+    required this.intermediateLatLng,
+    required this.intermediateName,
+    required this.destinationLatLng,
+    required this.destinationName,
+  });
 
   @override
-  Widget build(BuildContext context){
+  State<MyResultPage> createState() => _MyResultPageState();
+}
+
+class _MyResultPageState extends State<MyResultPage> {
+  Map<TravelMode, String> travelModeString = {
+    TravelMode.walk: '徒歩',
+    TravelMode.drive: '車',
+  };
+
+  late LatLng _originLatLng;
+  late String _originName;
+  late LatLng _intermediateLatLng;
+  late String _intermediateName;
+  late LatLng _destinationLatLng;
+  late String _destinationName;
+  late TravelMode _travelMode;
+  Duration _duration = const Duration();
+
+  void _onRouteSet(Duration duration) {
+    setState(() {
+      _duration = duration;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _originLatLng = widget.originLatLng;
+    _originName = widget.originName;
+    _intermediateLatLng = widget.intermediateLatLng;
+    _intermediateName = widget.intermediateName;
+    _destinationLatLng = widget.destinationLatLng;
+    _destinationName = widget.destinationName;
+    _travelMode = TravelMode.walk;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('検索結果'),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text('出発地: $depart'),
-            Text('目的地: $destination'),
-            Text('検索キーワード: $category'),
-          ],
+        toolbarHeight: 100.0,
+        title: Text(
+          '検索結果\n移動手段: ${travelModeString[_travelMode]}\n所要時間: ${_duration.inMinutes}分',
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
       ),
+      body: MyMap(
+        doSetRoute: true,
+        originLatLng: _originLatLng,
+        originName: _originName,
+        intermediateLatLng: _intermediateLatLng,
+        intermediateName: _intermediateName,
+        destinationLatLng: _destinationLatLng,
+        destinationName: _destinationName,
+        travelMode: _travelMode,
+        onRouteSet: _onRouteSet,
+      ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

@@ -2,18 +2,21 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import 'package:google_routes_flutter/google_routes_flutter.dart' as groutes;
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import '../api_key.dart';
 
 class MyMap extends StatefulWidget {
   final bool doSetRoute; // ルートを設定するか
   final gmaps.LatLng? originLatLng; // 出発地の緯度経度
+  final String? originName; //出発地の名前
   final gmaps.LatLng? intermediateLatLng; // 中継地の緯度経度
+  final String? intermediateName; //出発地の名前
   final gmaps.LatLng? destinationLatLng; // 到着地の緯度経度
+  final String? destinationName; //出発地の名前
   final groutes.TravelMode? travelMode; // 移動手段
   final void Function(Duration duration)? onRouteSet; // ルートの所要時間を取得するコールバック関数
 
@@ -21,8 +24,11 @@ class MyMap extends StatefulWidget {
     super.key,
     this.doSetRoute = false,
     this.originLatLng,
+    this.originName,
     this.intermediateLatLng,
+    this.intermediateName,
     this.destinationLatLng,
+    this.destinationName,
     this.travelMode,
     this.onRouteSet,
   });
@@ -167,19 +173,19 @@ class _MyMapState extends State<MyMap> {
       _markers
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('origin'),
-          infoWindow: const gmaps.InfoWindow(title: '出発地'),
+          infoWindow: gmaps.InfoWindow(title: '出発地:${widget.originName}'),
           position: originLatLng,
         ))
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('intermediate'),
-          infoWindow: const gmaps.InfoWindow(title: '中継地'),
+          infoWindow: gmaps.InfoWindow(title: '中継地:${widget.intermediateName}'),
           position: intermediateLatLng,
           icon: gmaps.BitmapDescriptor.defaultMarkerWithHue(
               gmaps.BitmapDescriptor.hueGreen),
         ))
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('destination'),
-          infoWindow: const gmaps.InfoWindow(title: '目的地'),
+          infoWindow: gmaps.InfoWindow(title: '目的地:${widget.destinationName}'),
           position: destinationLatLng,
         ));
     });
