@@ -100,6 +100,7 @@ class _MyMapState extends State<MyMap> {
     gmaps.LatLng destinationLatLng,
     groutes.TravelMode travelMode,
   ) async {
+    /* ミチクサルート はじめ -----------------------------------------------------*/
     // 出発地
     final groutes.Waypoint origin = groutes.Waypoint(
       location: groutes.Location(
@@ -152,6 +153,32 @@ class _MyMapState extends State<MyMap> {
       for (PointLatLng pointLatLng in pointLatLngs)
         gmaps.LatLng(pointLatLng.latitude, pointLatLng.longitude)
     ];
+    /* ミチクサルート おわり -----------------------------------------------------*/
+
+    /* 最短ルート はじめ --------------------------------------------------------*/
+    final groutes.ComputeRouteResult computeRoutesResultShort =
+        await groutes.computeRoute(
+      origin: origin,
+      destination: destination,
+      xGoogFieldMask: 'routes.duration,routes.polyline.encodedPolyline',
+      apiKey: apiKey,
+      travelMode: travelMode,
+    );
+
+    // encodedPolylineを取得
+    final String encodedPolylineShort =
+        computeRoutesResultShort.routes!.first.polyline!.encodedPolyline!;
+
+    // encodedPolylineをデコード
+    final List<PointLatLng> pointLatLngsShort =
+        _polylinePoints.decodePolyline(encodedPolylineShort);
+
+    // gmaps.LatLng型に変換
+    final List<gmaps.LatLng> pointsShort = [
+      for (PointLatLng pointLatLng in pointLatLngsShort)
+        gmaps.LatLng(pointLatLng.latitude, pointLatLng.longitude)
+    ];
+    /* 最短ルート おわり --------------------------------------------------------*/
 
     setState(() {
       // 所要時間を取得
@@ -163,13 +190,21 @@ class _MyMapState extends State<MyMap> {
       );
 
       // ポリラインを設置
-      _polylines.add(gmaps.Polyline(
-        polylineId: const gmaps.PolylineId("route"),
-        visible: true,
-        color: Colors.blue,
-        width: 5,
-        points: points,
-      ));
+      _polylines
+        ..add(gmaps.Polyline(
+          polylineId: const gmaps.PolylineId('short'),
+          visible: true,
+          color: Colors.black54,
+          width: 5,
+          points: pointsShort,
+        ))
+        ..add(gmaps.Polyline(
+          polylineId: const gmaps.PolylineId('mitikusa'),
+          visible: true,
+          color: Colors.lightGreen,
+          width: 5,
+          points: points,
+        ));
 
       // マーカーを設置
       _markers
