@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MyCategoryList extends StatefulWidget {
-  const MyCategoryList({Key? key,}) : super(key: key);
+  final void Function(String category) onSelected;
+
+  const MyCategoryList({super.key, required this.onSelected});
 
   @override
-  State<MyCategoryList> createState() =>  MyCategoryListState();
-
-  void getKey(void Function(String?) callback) {
-    MyCategoryListState().internalGetKey(callback);
-  }
+  State<MyCategoryList> createState() => MyCategoryListState();
 }
 
 class MyCategoryListState extends State<MyCategoryList> {
@@ -26,7 +24,6 @@ class MyCategoryListState extends State<MyCategoryList> {
     '美術館': 'museum',
     '水族館': 'aquarium',
     '動物園': 'zoo',
-
   };
   // カテゴリのリスト（keyのみ）
   List<String> categoryName = [
@@ -41,46 +38,43 @@ class MyCategoryListState extends State<MyCategoryList> {
     '動物園',
   ];
 
-  // MyCategoryListから呼び出すための内部メソッド
-  void internalGetKey(void Function(String?) callback) {
-    callback(categoryList[categoryName[_index]]);
-  }
-
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
+    widget.onSelected(categoryList[categoryName[_index]]!);
+
     return Column(
       children: [
         ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _visible = !_visible;
-              });
-            },
-            child: (_index == -1)? const Text('選択') : Text(categoryName[_index])
+          onPressed: () {
+            setState(() {
+              _visible = !_visible;
+            });
+          },
+          child: (_index == -1) ? const Text('選択') : Text(categoryName[_index]),
         ),
         Flexible(
-            child: Visibility(
-              visible: _visible,
-              child: Center(
-                child: ListView.builder(
-                  itemCount: categoryName.length,
-                  itemBuilder: (BuildContext context,int index) {
-                    return Card(
-                        child: ListTile(
-                          onTap: () {
-                            setState(() {
-                              _index = index;
-                              _visible = !_visible;
-                            });
-                            _index = index;
-                          },
-                          title: Text(categoryName[index]),
-                        )
-                    );
-                  },
-                ),
+          child: Visibility(
+            visible: _visible,
+            child: Center(
+              child: ListView.builder(
+                itemCount: categoryName.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: ListTile(
+                      onTap: () {
+                        setState(() {
+                          _index = index;
+                          _visible = !_visible;
+                        });
+                        widget.onSelected(categoryList[categoryName[_index]]!);
+                      },
+                      title: Text(categoryName[index]),
+                    ),
+                  );
+                },
               ),
-            )
+            ),
+          ),
         ),
       ],
     );
