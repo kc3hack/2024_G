@@ -2,18 +2,21 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import 'package:google_routes_flutter/google_routes_flutter.dart' as groutes;
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import '../api_key.dart';
 
 class MyMap extends StatefulWidget {
   final bool doSetRoute; // ルートを設定するか
   final gmaps.LatLng? originLatLng; // 出発地の緯度経度
+  final String? originName; //出発地の名前
   final gmaps.LatLng? intermediateLatLng; // 中継地の緯度経度
+  final String? intermediateName; //出発地の名前
   final gmaps.LatLng? destinationLatLng; // 到着地の緯度経度
+  final String? destinationName; //出発地の名前
   final groutes.TravelMode? travelMode; // 移動手段
   final void Function(Duration duration)? onRouteSet; // ルートの所要時間を取得するコールバック関数
 
@@ -21,8 +24,11 @@ class MyMap extends StatefulWidget {
     super.key,
     this.doSetRoute = false,
     this.originLatLng,
+    this.originName,
     this.intermediateLatLng,
+    this.intermediateName,
     this.destinationLatLng,
+    this.destinationName,
     this.travelMode,
     this.onRouteSet,
   });
@@ -40,7 +46,13 @@ class _MyMapState extends State<MyMap> {
       PolylinePoints(); // flutter_polyline_pointsパッケージを利用するためのオブジェクトインスタンス
   final Set<gmaps.Marker> _markers = {}; // マーカーたち
   late Duration _duration; // ルートの所要時間
-  late gmaps.CameraPosition _initialCameraPosition; // カメラの初期位置
+
+  // カメラの初期位置
+  final gmaps.CameraPosition _initialCameraPosition =
+      const gmaps.CameraPosition(
+    target: gmaps.LatLng(36.204823999999995, 138.252924),
+    zoom: 4.0,
+  );
 
   // 現在位置取得に関する設定
   final LocationSettings _locationSettings = const LocationSettings(
@@ -65,6 +77,18 @@ class _MyMapState extends State<MyMap> {
   // GoogleMap.onMapCreated コールバック
   void _onMapCreated(gmaps.GoogleMapController googleMapController) {
     _googleMapController = googleMapController;
+
+    // カメラを現在地に設定
+    Geolocator.getCurrentPosition().then((Position position) {
+      _googleMapController.moveCamera(
+        gmaps.CameraUpdate.newCameraPosition(
+          gmaps.CameraPosition(
+            target: gmaps.LatLng(position.latitude, position.longitude),
+            zoom: 14.0,
+          ),
+        ),
+      );
+    });
   }
 
   // ルートを設定
@@ -149,19 +173,26 @@ class _MyMapState extends State<MyMap> {
       _markers
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('origin'),
-          infoWindow: const gmaps.InfoWindow(title: '出発地'),
+          infoWindow:
+              gmaps.InfoWindow(title: widget.originName, snippet: '出発地'),
           position: originLatLng,
+          icon: gmaps.BitmapDescriptor.defaultMarkerWithHue(
+            gmaps.BitmapDescriptor.hueBlue,
+          ),
         ))
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('intermediate'),
-          infoWindow: const gmaps.InfoWindow(title: '中継地'),
+          infoWindow:
+              gmaps.InfoWindow(title: widget.intermediateName, snippet: '中継地'),
           position: intermediateLatLng,
           icon: gmaps.BitmapDescriptor.defaultMarkerWithHue(
-              gmaps.BitmapDescriptor.hueGreen),
+            gmaps.BitmapDescriptor.hueGreen,
+          ),
         ))
         ..add(gmaps.Marker(
           markerId: const gmaps.MarkerId('destination'),
-          infoWindow: const gmaps.InfoWindow(title: '目的地'),
+          infoWindow:
+              gmaps.InfoWindow(title: widget.destinationName, snippet: '目的地'),
           position: destinationLatLng,
         ));
     });
@@ -204,14 +235,6 @@ class _MyMapState extends State<MyMap> {
       setState(() {
         _currentPosition = position;
       });
-    });
-
-    // カメラの初期位置を現在地に設定
-    Geolocator.getCurrentPosition().then((Position position) {
-      _initialCameraPosition = gmaps.CameraPosition(
-        target: gmaps.LatLng(position.latitude, position.longitude),
-        zoom: 14.0,
-      );
     });
 
     // 指定されているならばルートを設定
