@@ -1,16 +1,25 @@
-# mitikusa
+# プロダクト名
+ミチクサ
 
-KC3Hack2024teamGProject
+![プロダクト名](./assets/images/img_1.png)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## チーム名
+チームG C.A.C..zip
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 背景・課題・解決されること
+有名な観光地が過密になることから、移動を通じて人の分散ができないかを考えた。 
+目的地までのミチクサ（寄り道）を提案することで分散を図る。
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## プロダクト説明
+出発地と目的地、ミチクサスポットのジャンルを指定するとミチクサルートを提案する
+
+## 注力したポイント
+ルートの提示を（Google Mapの二番煎じにならないために）できるように全力を注ぎました。
+
+
+## 使用技術
+- Flutter
+- Google Map API
